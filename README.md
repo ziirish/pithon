@@ -1,4 +1,9 @@
-pithon
+Pithon
 ======
 
 Pithon is a "snake-like" game intented to be played on Raspberry Pi
+
+Compilation
+===========
+
+gcc -o pithon src/pithon.c `sdl-config --cflags --libs`
