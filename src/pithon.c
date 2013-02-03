@@ -2,10 +2,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-/*
-#define BPP 4
-#define DEPTH 16
-*/
+#define DATA    "data"
+
 const SDL_VideoInfo *infos;
 
 void setpixel(SDL_Surface *screen, int x, int y, Uint8 r, Uint8 g, Uint8 b)
@@ -108,8 +106,6 @@ SDL_Surface *ScaleSurface(SDL_Surface *Surface, Uint16 Width, Uint16 Height)
 
 void DrawScreen(SDL_Surface* screen, int h)
 { 
-    int x, y, ytimesw;
-  
     if(SDL_MUSTLOCK(screen)) 
     {
         if(SDL_LockSurface(screen) < 0) return;
@@ -121,28 +117,21 @@ void DrawScreen(SDL_Surface* screen, int h)
     bg_pos.x = 0;
     bg_pos.y = 0;
 
-    bg = IMG_Load("logo.jpg");
+    bg = IMG_Load(DATA"/logo.jpg");
     bg_resized = ScaleSurface (bg, infos->current_w, infos->current_h);
     SDL_BlitSurface(bg_resized, NULL, screen, &bg_pos);
-/*
-    for(y = 0; y < screen->h; y++ ) 
-    {
-        ytimesw = y*screen->pitch/BPP;
-        for( x = 0; x < screen->w; x++ ) 
-        {
-            setpixel(screen, x, ytimesw, (x*x)/256+3*y+h, (y*y)/256+x+h, h);
-        }
-    }
-*/
+
     if(SDL_MUSTLOCK(screen)) SDL_UnlockSurface(screen);
   
     SDL_Flip(screen); 
+
+    (void) h;
 }
 
 
 int main(int argc, char* argv[])
 {
-    SDL_Surface *screen, *background;
+    SDL_Surface *screen; //, *background;
     SDL_Event event;
   
     int keypress = 0;
@@ -180,6 +169,9 @@ int main(int argc, char* argv[])
     SDL_Quit();
   
     return 0;
+
+    (void) argc;
+    (void) argv;
 }
 
 
